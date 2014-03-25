@@ -42,15 +42,9 @@ Merged code 6 Sept 2013 by ylh
 */
 
 /*
-#include "Arduino.h"
-
 #include <IRLib.h>
 #include <SoftwareSerial.h>
-
-#include <Esplora.h>
-#include <Wire.h>
-#include <L3G4200D.h>
-#include <AACcollection.h>
+#include "Wire.h"
 
 #include "Arduino.h"
 #include "Esplora.h"
