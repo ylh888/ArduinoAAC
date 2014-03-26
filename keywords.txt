@@ -8,11 +8,12 @@
 
 Joystick KEYWORD1
 Sensor KEYWORD1
+DigitalSensor KEYWORD1
 AnalogSensor KEYWORD1
 EsAccelerometer KEYWORD1
 EsJoy KEYWORD1
 EsAccAsMouse KEYWORD1
-L3G4asMouse KEYWORD1
+AACL3G4mouse KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

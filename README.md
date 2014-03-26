@@ -5,7 +5,14 @@ A collection of utilities for various sensors, useful for Augmentative & Alterna
 Maintained by [Ability Spectrum](
 http://abilityspectrum.com)
 
-- DigitalSensor
-- 
-- AnalogSensor
-- 
+### AACsensors
+
+Two classes are provided
+
+* DigitalSensor
+
+* AnalogSensor
+
+
+
+### AACL3G4mouse
