@@ -33,34 +33,35 @@
 
 const int testing = 1; // set this to 0 for final version
 
-//analog params
-const int nLevels = 3; // number of levels
-const int trigger = 0; // reading at this value or less will trigger
+//digital param
+const int trigger = 1; // reading at this value will trigger
+const int pinIn=4;
 
 int lastRead=1, count=0;
 
-//DigitalSensor s(3, 500, 1, 0);  // Pin, Refractory period, Normal High, Debug
+DigitalSensor s(pinIn, 500, 1, 0);  // Pin, Refractory period, Normal High, Debug
 
-AnalogSensor s(A0, 500, 0, 0);
+//AnalogSensor s(A0, 500, 0, 0);
 
 void setup() {    
+  pinMode(pinIn, INPUT);
 }
 
 void loop() {
-  int x,y;
+   int x,y;
   
    delay(10);
    count++;
    
-   //x=s.Read();  // digital read
-   x=s.Level(nLevels);  //analog read
+   x=s.Read();  // digital read
+   //x=s.Level(nLevels);  //analog read
    
    if(x ==lastRead) {
      return;
    }     
    
    if( testing==1 && x!=lastRead) {
-       //Serial.print(count);
+       Serial.print(count);
        Serial.print(" ");
        Serial.print(x);
        Serial.print(" ");
@@ -68,13 +69,13 @@ void loop() {
    
    lastRead = x;  
    
-   if( x<=trigger ) {
+   if( x==trigger ) {
      if( testing == 0 ) {
        Keyboard.press(KEY_UP_ARROW); 
        Keyboard.press(KEY_DOWN_ARROW); 
        Keyboard.releaseAll();
      }  else {
-       Serial.print(count);       
+ 
        Serial.print(" *T*\n");  // Triggered
      }
    }

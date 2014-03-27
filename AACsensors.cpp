@@ -96,8 +96,8 @@ int DigitalSensor::Read() {
 
 
 // Analog sensor: differentiates ternary and quarternary levels
-// recalibrates when held at the same level for n=5 cycles (reads)
-// Args: input pin,  refractory period,   debug
+// recalibrates when held at the same level for n=6 cycles (reads) && 8 seconds
+// Args: input pin,  refractory period,  atRest, debug
 // Forced return of last value if read within refractory period 
 // atRest is the rest level that is common. No recalibration at this level
 AnalogSensor::AnalogSensor(int pin=A4, int ref=0, int atRest=0, int debug=0) {
@@ -114,6 +114,7 @@ void AnalogSensor::Reset() {
   minima=10000;
   maxima=-10000;
   held=0; heldLevel=_atRest;
+  lastheld=millis();
   if(_debug>2 ) Serial.println("                          * Reset");
 
   Level(2);
@@ -155,13 +156,15 @@ int AnalogSensor::Level(int level) {
   if( x!=_atRest ) {
     if( x==heldLevel ) {
       held++; 
-      if( held>6 ) {
+      if( held>6 && (millis() - lastheld) >8000 ) {
         Reset();
+        lastheld = millis();
         _lastDetected = millis();
       }
     } else {
        heldLevel=x;
        held=0;
+       lastheld = millis();
        _lastDetected = millis();
     }
   }

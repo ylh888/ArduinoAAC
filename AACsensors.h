@@ -79,6 +79,7 @@ class AnalogSensor
     int sensorValue;
     int levelValue;
     int held, heldLevel;
+    long lastheld;  // new style - recalibrate if held > 7 secs
     int _sensorPin;
     unsigned long _lastDetected;
     int _refractory;
