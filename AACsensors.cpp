@@ -74,6 +74,7 @@ DigitalSensor::DigitalSensor(int pin, int ref=500, int normalhigh=0, int debug=0
   _refractory = ref;
   _normalhigh = normalhigh;
   _debug=debug;
+
   _lastDetected= millis();
   pinMode(pin,INPUT);
 }
@@ -103,10 +104,11 @@ int DigitalSensor::Read() {
 AnalogSensor::AnalogSensor(int pin=A4, int ref=0, int atRest=0, int debug=0) {
   if( debug ) Serial.begin(9600);
   _sensorPin=pin;
-  pinMode(pin,INPUT);
   _refractory = ref;
   _atRest= atRest;
   _debug=debug;
+  pinMode(pin,INPUT);
+
   Reset();
 }
 
@@ -156,7 +158,7 @@ int AnalogSensor::Level(int level) {
   if( x!=_atRest ) {
     if( x==heldLevel ) {
       held++; 
-      if( held>6 && (millis() - lastheld) >8000 ) {
+      if( held>6 && (millis() - lastheld) >10000 ) {
         Reset();
         lastheld = millis();
         _lastDetected = millis();

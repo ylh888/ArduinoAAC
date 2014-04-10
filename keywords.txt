@@ -8,6 +8,8 @@
 
 Joystick KEYWORD1
 Sensor KEYWORD1
+Switch KEYWORD1
+SerialBuzzer KEYWORD1
 DigitalSensor KEYWORD1
 AnalogSensor KEYWORD1
 EsAccelerometer KEYWORD1
@@ -26,6 +28,9 @@ RawValueIRIn KEYWORD2
 HeldPeriod KEYWORD2
 Level KEYWORD2
 Reset KEYWORD2
+Check KEYWORD2
+On KEYWORD2
+Go KEYWORD2
 
 x KEYWORD2
 y KEYWORD2
