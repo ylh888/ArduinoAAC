@@ -1,11 +1,12 @@
 /*
- * ASshort_longDigital v4
+ * ASshort_longDigital v5
  
  Pro Micro for V using DIGITAL sensor
  
  v3 uses buzzer requiring modulation
  
  short click ON DOWN sends iPad Select
+    v5 closes pinControl port as well
  long click ON UP sends relay signal
  
  Added timer so that beyond longclickTime then
@@ -41,20 +42,34 @@
 #include <AACswitch.h>
 
 const int testing = 0; // set this to 0 for final version
+const int CapTouch = 1; // set this to 1 if for capacitive touch sensor
 
 //digital param
 
-const int pinIn=6;  // digital sensor
-Switch buzzer( 4, 40, 1 ); // USED
-Switch relay( 2, 200, 0);
+const int pinIn=7;  // digital sensor 7 or A0 ++++
+const int pinControl = A3;   // select = 5 or A3
+Switch control( pinControl, 100, 1 );
+
+Switch buzzer( 4, 40, 1 ); // USED buzzer = 4 or A2 +++++
+Switch relay( A4, 200, 0);  // relay = 2 or A4
 SerialBuzzer serialBuzzer( 3, testing ); // pin, debug  // NOT USED
+
+/*
+const int pinIn=7;  // digital sensor 7
+const int pinControl = 5;   // select = 5
+Switch control( pinControl, 100, 1 );
+
+Switch buzzer( 4, 40, 1 ); // USED buzzer = 4
+Switch relay( 2, 200, 0);  // relay = 2
+SerialBuzzer serialBuzzer( 3, testing ); // pin, debug  // NOT USED
+*/
 
 //analog params
 const int nLevels = 3; // number of levels
 const int triggerA = 0; // reading at this value or less will trigger; must be less than nLevels
-const long ignoreTime = 400;
-const long longclickTime = 1200;
-const long discardTime = 2500;
+const long ignoreTime = 400;  //400
+const long longclickTime = 1200;  //1200
+const long discardTime = 2500;  //2500
 
 long lastTriggeredA = 0;
 int lastReadA=1;
@@ -114,7 +129,7 @@ void tryTriggerLongA(int byWhat) {
 }
 
 void setup() {    
-   pinMode(pinIn, INPUT_PULLUP);
+   pinMode(pinIn, INPUT);
 
    buzzer.On(200);
    serialBuzzer.Go(3,1);
@@ -127,9 +142,12 @@ void loop() {
    delay(10);
    relay.Check();
    buzzer.Check();
+   control.Check();
 
    count++;
    xA = digitalRead(pinIn);
+   if( CapTouch ) { xA = 1- digitalRead(pinIn); } // invert for capacitive touch sensor
+  
 
    //xA=sD.Read();  // digital read using library routine 
    //************** DISABLE ANALOG  xA=sA.Level(nLevels);  //analog read
@@ -157,18 +175,20 @@ void loop() {
                Keyboard.press(KEY_DOWN_ARROW); 
                Keyboard.releaseAll();
                
+               control.On(100);
+               
                /* app click 
                Keyboard.press('1');
                Keyboard.releaseAll();
                */
                
-               buzzer.On(40);
+               buzzer.On(10);
             }  
             else {
                Serial.print(count);
                Serial.print(" *A*\n");  // Triggered
                relay.On(50);
-               buzzer.On(40);
+               buzzer.On(10);
             }       
 
             serialBuzzer.Go(1,1);
