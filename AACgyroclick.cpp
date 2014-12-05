@@ -60,9 +60,12 @@ void GyroClick::loop( Quaternion q ) {
          Yvalue = Xvalue > 0.030 ? 1 : 0;  /* 0.015 - tested value higher less sensitive*/
          if( Yvalue == 1 ) {
             buzzer.On(50);
+            /*
             Keyboard.press(KEY_UP_ARROW); 
             Keyboard.press(KEY_DOWN_ARROW); 
             Keyboard.releaseAll();
+            */
+            Mouse.click(MOUSE_LEFT);
             //            Serial.print( newPeriod );
             //            Serial.println ( " +" );
             Xvalue = 0;
