@@ -34,7 +34,9 @@ public:
    GyroClick();
    //void reset();
    void setSensitivity( int );
+   void normalHigh0(int);
    void loop( Quaternion );
+   AnalogSensor An0;
 
 private:
    float euclid( Quaternion, Quaternion);
@@ -42,6 +44,7 @@ private:
    Quaternion oldq;
    long previousGrabTime;
    //low timestep for rapid processing - smaller more sensitive
+   int _inverted0;
    long timeStep; // 10 works; must be at least 7
    long refractory;
    long newPeriod;

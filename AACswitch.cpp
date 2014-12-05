@@ -48,7 +48,8 @@ void Switch::On( int period  = 0 ) {
     _period = 200;
   else
     _period = period;
-  digitalWrite( _switchPin, HIGH);
+  //digitalWrite( _switchPin, HIGH);
+  analogWrite( _switchPin, 127);
   _switched=1;
   _lastSwitched = millis();
 
@@ -58,13 +59,14 @@ void Switch::On( int period  = 0 ) {
 void Switch::Times( int times = 1 ) {
   _switched = times * 2 - 1; // double it for on and off
   _period = 30;
-  digitalWrite( _switchPin, HIGH);
+  //digitalWrite( _switchPin, HIGH);
+  analogWrite( _switchPin, 127);
   _lastSwitched = millis();
 
 }
-void Switch::loop() { Check(); }
+void Switch::Check() { loop(); }
 
-void Switch::Check() {
+void Switch::loop() {
    if( _switched && (millis()- _lastSwitched ) > _period ) {
      if( _switched%2 ) {
        digitalWrite( _switchPin, LOW);

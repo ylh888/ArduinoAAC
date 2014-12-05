@@ -27,7 +27,7 @@
 #include "AACswitch.h"
 #include "AACgyroclick.h"
 
-GyroClick::GyroClick() : buzzer( 4, 40, 0) {
+GyroClick::GyroClick() : An0( A0, 300, 1, 0), buzzer( 5, 40, 0) {
    previousGrabTime = 0;
    //low timestep for rapid processing - smaller more sensitive
    timeStep = 10; // 10 works; must be at least 7
@@ -37,6 +37,11 @@ GyroClick::GyroClick() : buzzer( 4, 40, 0) {
    ignoreTime = 0;
    resetPeriod = 80; // 40 - 400 works - longer more sensitiv
    Avalue = 0, Xvalue = 0, Yvalue =0;
+}
+
+void GyroClick::normalHigh0( int in ) {
+  if( in>1 ) in=1;
+  _inverted0 = in;
 }
 
 void GyroClick::setSensitivity( int s ) {
@@ -60,14 +65,9 @@ void GyroClick::loop( Quaternion q ) {
          Yvalue = Xvalue > 0.030 ? 1 : 0;  /* 0.015 - tested value higher less sensitive*/
          if( Yvalue == 1 ) {
             buzzer.On(50);
-            /*
-            Keyboard.press(KEY_UP_ARROW); 
-            Keyboard.press(KEY_DOWN_ARROW); 
-            Keyboard.releaseAll();
-            */
-            Mouse.click(MOUSE_LEFT);
-            //            Serial.print( newPeriod );
-            //            Serial.println ( " +" );
+            if( An0.Level(2) == _inverted0 ) { // 0 - for cap touch; 1 - for light
+              Mouse.click(MOUSE_LEFT);
+            }
             Xvalue = 0;
             ignoreTime = previousGrabTime;
             newPeriod = ignoreTime;

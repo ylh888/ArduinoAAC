@@ -31,7 +31,7 @@
    // A0==18 on Pro Micro: once stopped, mouse inactive for 300ms
    // A1==19 on Pro Micro: 50ms pause once clicked
 GyroMouse::GyroMouse() : An1( A1, 50, 1, 0), An0( A0, 300, 1, 0),
-   buzzer ( 4, 40, 1 ) // BUZZER on pin 4
+   buzzer ( 5, 40, 1 ) // BUZZER on pin 4
 {
    mouseactivated=0;
    _sens = 13;
