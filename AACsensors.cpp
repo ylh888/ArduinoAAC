@@ -81,14 +81,12 @@ DigitalSensor::DigitalSensor(int pin, int ref=500, int normalhigh=0, int debug=0
 
 void DigitalSensor::setNormalHigh ( int normalhigh = 0 ) {
   _normalhigh = normalhigh;
-  /* ylh
   if (_normalhigh == 0 ) {
     pinMode(_sensorPin, INPUT);
   } else {
     pinMode(_sensorPin, INPUT_PULLUP);
   }
   digitalWrite( _sensorPin, _normalhigh );
-  */
 }
 
 void DigitalSensor::setPin( int p ) {
